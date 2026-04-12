@@ -1,36 +1,61 @@
-# website-validator
-A dotnet application that crawls a website checking for http 404s and maybe more stuff later
+# Website Validator
 
-Intended usage:
+A command-line tool that crawls a website and validates it -- checking for HTTP errors, broken links, and collecting structural information for further analysis.
+
+## Tech Stack
+
+- .NET 10.0 (C#)
+- [HtmlAgilityPack](https://html-agility-pack.net/) -- HTML parsing and link extraction
+- [System.CommandLine](https://github.com/dotnet/command-line-api) -- CLI argument parsing
+- [xUnit](https://xunit.net/) -- Unit testing
+
+## Build
+
+```bash
+dotnet build source/WebsiteValidator/
 ```
-websitevalidator -u https://www.yourdomain.whatever -c [--limit xxx] -o structure.json
+
+## Test
+
+```bash
+dotnet test source/WebsiteValidator/
 ```
 
-Output: 
+## Usage
 
-A big json file with a lot of information.
-A part of it being the structure of the website.
-Useful for further analysis. Its a simple big JSON file. A good thing if you like to use powershell e.g.. Just read the thing and do whatever.
+```bash
+websitevalidator --url <URL> [options]
+```
 
-## Next tasks
+### Options
 
-### basic functionality
+| Option | Short | Description |
+|---|---|---|
+| `--url` | `-u` | **(required)** The URL of the website to crawl |
+| `--links` | `-l` | List all links found on the page |
+| `--crawl` | `-c` | Crawl the full site and list all links |
+| `--ignore-ssl` | | Ignore SSL certificate errors |
+| `--human` | `-h` | Human-readable output (default is JSON) |
+| `--output` | `-o` | Save results to a file |
+| `--limit` | | Maximum number of pages to crawl |
+| `--additionalEntrypoints` | `--ae` | Text file with additional entry point URLs (e.g. from a sitemap) |
 
-  - [X] convert relative urls to absolute ones
-  - [X] return the output either as human readable or json (is there a generic approach?); maybe add a --human switch for the more readable output and default to json
-  - [X] return only distinct results
-  - [X] enable some basic crawling activity
-    - [X] remember the result of each url, so every url is only crawled once
-    - [ ] only check external urls, but do not feed links from them back into the system. It is important that they are basically reachable but we do not want to check their pages, too)
-  - [ ] also crawl resource files like linked images, css and javascript
-  - [ ] add an option for a final human readable report?
+### Examples
 
-### validations
+```bash
+# List all links on a page
+websitevalidator -u https://example.com -l
 
-  - [ ] validations should be configurable without the need for a recompilation
-  - [ ] group results by http status code, create error messages for 404s and other problems
-  - [ ] pages shall not contain "Error", "Warning", or anything else that looks like a php problem
-  - [ ] can I have an overview of which pages are mentioned in the sitemap and which are not
-  - [ ] can I have an overview of pages which are possibly disallowed by robots.txt
-  - [ ] we need something that allows us to mute known validation messages that we want to ignore
+# Crawl a website and save results as JSON
+websitevalidator -u https://example.com -c -o results.json
 
+# Crawl with a page limit and human-readable output
+websitevalidator -u https://example.com -c --limit 100 -h
+
+# Crawl with additional entry points from a sitemap
+websitevalidator -u https://example.com -c --ae sitemap-urls.txt -o results.json
+```
+
+## Output
+
+Results are written as JSON by default -- a structured file suitable for further analysis with tools like PowerShell, jq, or custom scripts. Use `--human` for a more readable console output.
