@@ -1,44 +1,81 @@
-﻿/**
+/**
 * Website Validator - crawl a website and collect loads of information
-* 
+*
 * The website validator shall help you with the continuous surveillance
 * of a website and enable the implementation of smaller helpers (e.g. in powershell)
 * for your own custom rules.
 * */
-var urlOption = new Option<string>(new[] { "--url", "-u" }, description: "The url of the website you would like to crawl.");
-urlOption.IsRequired = true;
+var urlOption = new Option<string>("--url", "-u")
+{
+    Description = "The url of the website you would like to crawl.",
+    Required = true
+};
 
-var linksOption = new Option<bool>(new[] { "--links", "-l" }, description: "List all links that you can find.");
-var crawlOption = new Option<bool>(new[] { "--crawl", "-c" }, description: "Crawl the full page and list all links.");
-var sslOption = new Option<bool>(new[] { "--ignore-ssl" }, description: "Ignores SSL certificate");
-var humanOption = new Option<bool>(new[] { "--human", "-h" }, "Human readable output (instead of json)");
+var linksOption = new Option<bool>("--links", "-l")
+{
+    Description = "List all links that you can find."
+};
 
-var outputOption = new Option<string>(new[] { "--output", "-o" }, description: "Where to save the results. Without the option i'll write on the screen.");
-var limitOption = new Option<int>(new[] { "--limit" }, description: "Maximum number of pages to crawl.");
-var additionalEntryPoints = new Option<string>(
-    new[] { "--additionalEntrypoints", "--ae" },
-    "A simple text file with a list of urls, for e.g. sitemap-links...");
+var crawlOption = new Option<bool>("--crawl", "-c")
+{
+    Description = "Crawl the full page and list all links."
+};
+
+var sslOption = new Option<bool>("--ignore-ssl")
+{
+    Description = "Ignores SSL certificate"
+};
+
+var humanOption = new Option<bool>("--human", "-h")
+{
+    Description = "Human readable output (instead of json)"
+};
+
+var outputOption = new Option<string>("--output", "-o")
+{
+    Description = "Where to save the results. Without the option i'll write on the screen."
+};
+
+var limitOption = new Option<int>("--limit")
+{
+    Description = "Maximum number of pages to crawl."
+};
+
+var additionalEntryPoints = new Option<string>("--additionalEntrypoints", "--ae")
+{
+    Description = "A simple text file with a list of urls, for e.g. sitemap-links..."
+};
 
 // Create a root command with some options
-var rootCommand = new RootCommand
-            {
-                urlOption,
-                linksOption,
-                sslOption,
-                humanOption,
-                crawlOption,
-                outputOption,
-                limitOption,
-                additionalEntryPoints
-            };
+var rootCommand = new RootCommand("WebsiteValidator, a tool to crawl a website and validate it")
+{
+    urlOption,
+    linksOption,
+    sslOption,
+    humanOption,
+    crawlOption,
+    outputOption,
+    limitOption,
+    additionalEntryPoints
+};
 
-rootCommand.Description = "WebsiteValidator, a tool to crawl a website and validate it";
+rootCommand.SetAction(parseResult =>
+{
+    var url = parseResult.GetValue(urlOption)!;
+    var links = parseResult.GetValue(linksOption);
+    var ignoreSsl = parseResult.GetValue(sslOption);
+    var human = parseResult.GetValue(humanOption);
+    var crawl = parseResult.GetValue(crawlOption);
+    var output = parseResult.GetValue(outputOption) ?? string.Empty;
+    var limit = parseResult.GetValue(limitOption);
+    var entrypoints = parseResult.GetValue(additionalEntryPoints) ?? string.Empty;
 
-// Note that the parameters of the handler method are matched according to the names of the options
-rootCommand.Handler = CommandHandler.Create<string, bool, bool, bool, bool, string, int, string>(ProcessCommand);
+    ProcessCommand(url, links, ignoreSsl, human, crawl, output, limit, entrypoints);
+    return 0;
+});
 
 // Parse the incoming args and invoke the handler
-return rootCommand.InvokeAsync(args).Result;
+return await rootCommand.Parse(args).InvokeAsync();
 
 
 static void ProcessCommand(string url, bool links, bool ignoreSsl, bool human, bool crawl, string output,

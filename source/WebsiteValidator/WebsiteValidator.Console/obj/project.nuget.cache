@@ -1,14 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "5hjp0pHvmC04w2jSooEZt7nswOtzuanDWWpcjAdr+mObSOc9tln5b6k+K662j8jHLwOvW66wjPetbRrqQFN2Og==",
+  "dgSpecHash": "6QbHmtkwMbA=",
   "success": true,
-  "projectFilePath": "C:\\Projekte\\website-validator-dotnet6\\source\\WebsiteValidator\\WebsiteValidator.Console\\WebsiteValidator.Console.csproj",
+  "projectFilePath": "C:\\Projekte\\website-validator\\source\\WebsiteValidator\\WebsiteValidator.Console\\WebsiteValidator.Console.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Entwickler\\.nuget\\packages\\htmlagilitypack\\1.11.38\\htmlagilitypack.1.11.38.nupkg.sha512",
-    "C:\\Users\\Entwickler\\.nuget\\packages\\microsoft.csharp\\4.4.1\\microsoft.csharp.4.4.1.nupkg.sha512",
-    "C:\\Users\\Entwickler\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
-    "C:\\Users\\Entwickler\\.nuget\\packages\\system.commandline\\2.0.0-beta1.21308.1\\system.commandline.2.0.0-beta1.21308.1.nupkg.sha512",
-    "C:\\Users\\Entwickler\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512"
+    "C:\\Users\\sthof\\.nuget\\packages\\htmlagilitypack\\1.12.4\\htmlagilitypack.1.12.4.nupkg.sha512",
+    "C:\\Users\\sthof\\.nuget\\packages\\newtonsoft.json\\13.0.4\\newtonsoft.json.13.0.4.nupkg.sha512",
+    "C:\\Users\\sthof\\.nuget\\packages\\system.commandline\\2.0.5\\system.commandline.2.0.5.nupkg.sha512"
   ],
   "logs": []
 }

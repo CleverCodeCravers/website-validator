@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Threading.Tasks;
 using WebsiteValidator.BL.Classes;
 using Xunit;
 using Xunit.Abstractions;
@@ -15,7 +16,7 @@ namespace WebsiteValidator.BL.Tests
         /// github pages site.
         /// </summary>
         [Fact]
-        public async void Downloading_a_webpage_with_good_certificate_works()
+        public async Task Downloading_a_webpage_with_good_certificate_works()
         {
             string url = "https://stho32.github.io/website-validator/can_download_sample.html";
 
@@ -41,7 +42,7 @@ namespace WebsiteValidator.BL.Tests
         }
 
         [Fact]
-        public async void Downloading_a_webpage_with_bad_certificate_but_us_ignoring_it_works()
+        public async Task Downloading_a_webpage_with_bad_certificate_but_us_ignoring_it_works()
         {
             string url = "https://stho32.github.io/website-validator/can_download_sample.html";
 
